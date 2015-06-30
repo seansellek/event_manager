@@ -1,9 +1,9 @@
 require 'csv'
 
 
-input_file = 'event_attendees.csv'
-contents = CSV.open(input_file, headers: true, header_converters: :symbol)
-
+input_file = 'full_event_attendees.csv'
+file = File.open(input_file, 'r:ISO-8859-1')
+contents = CSV.parse(file, headers: true, header_converters: :symbol)
 visiting_hours = {}
 
 contents.each do |row|
@@ -13,7 +13,7 @@ contents.each do |row|
   visiting_hours[hour] += 1
 end
 hours = visiting_hours.keys
-hours.sort_by! {|hour| visiting_hours[hour] }
+hours.sort_by! { |hour| visiting_hours[hour] }
 hours.each do |hour|
   puts "#{hour}:00-#{hour}:59 => #{visiting_hours[hour]}" if visiting_hours[hour]
 end
